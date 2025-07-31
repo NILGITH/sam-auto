@@ -372,8 +372,36 @@ export default function Pieces() {
                 ))}
               </ul>
             )}
-            {cart.length > 0 && <div className="mt-2 font-bold text-right">Total : {cart.reduce((t, i) => t + i.price, 0).toLocaleString('fr-FR')} FCFA</div>}
+            
+            {cart.length > 0 && (
+              <>
+                <div className="mt-2 font-bold text-right">Total : {cart.reduce((t, i) => t + i.price, 0).toLocaleString('fr-FR')} FCFA</div>
+                <div className="mt-3 flex gap-2">
+                  <Button 
+                    size="sm" 
+                    className="flex-1 bg-blue-600 hover:bg-blue-700"
+                    onClick={() => openPay({
+                      amount: cart.reduce((t, i) => t + i.price, 0),
+                      description: `Panier - ${cart.length} article(s)`,
+                      customerName: "Client SAM AUTO",
+                      customerEmail: "",
+                      customerPhone: ""
+                    })}
+                  >
+                    Acheter
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => setCart([])}
+                  >
+                    Vider
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
+
         )}
       </div>
       {/* Slider promo */}
@@ -579,9 +607,6 @@ export default function Pieces() {
                       <div className="mt-2 text-xs text-gray-500">Compatibilité : {quickView.compatibility.join(', ')}</div>
                       <div className="flex gap-2 mt-4">
                         <Button size="sm" variant="outline" onClick={() => { setCart(c => [...c, quickView]); setQuickView(null); }}>Ajouter au panier</Button>
-                        <Link href={`/detailspieces?id=${quickView.id}`}>
-                          <Button size="sm" variant="secondary">Voir la fiche</Button>
-                        </Link>
                       </div>
                       {/* Avis clients */}
                       <div className="mt-4">
